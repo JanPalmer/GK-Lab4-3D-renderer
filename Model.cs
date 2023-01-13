@@ -31,6 +31,15 @@ namespace PRO4_lab
                 });
         }
 
+        private void _MultiplyEveryMeshNormalByMatrix(Matrix4x4 matrix)
+        {
+            Parallel.For(0, mesh.normalVectors.Count,
+                ctr => {
+                    Vector4 v = mesh.normalVectors[ctr];
+                    mesh.normalVectors[ctr] = VectorUtils.MultiplyMatrix4x4andVector4(matrix, v);
+                });
+        }
+
         public void MoveByVector(Vector4 shift)
         {
             position += shift;
@@ -40,6 +49,7 @@ namespace PRO4_lab
                 0, 0, 1, shift.Z,
                 0, 0, 0, 1);
             _MultiplyEveryMeshVertexByMatrix(shiftMatrix);
+            _MultiplyEveryMeshNormalByMatrix(shiftMatrix);
         }
 
         public void RotateByOX(float theta)
@@ -56,6 +66,7 @@ namespace PRO4_lab
                 );
 
             _MultiplyEveryMeshVertexByMatrix(rotationMatrix);
+            _MultiplyEveryMeshNormalByMatrix(rotationMatrix);
         }
 
         public void RotateByOY(float theta)
@@ -72,6 +83,7 @@ namespace PRO4_lab
                 );
 
             _MultiplyEveryMeshVertexByMatrix(rotationMatrix);
+            _MultiplyEveryMeshNormalByMatrix(rotationMatrix);
         }
 
         public void RotateByOZ(float theta)
@@ -88,6 +100,7 @@ namespace PRO4_lab
                 );
 
             _MultiplyEveryMeshVertexByMatrix(rotationMatrix);
+            _MultiplyEveryMeshNormalByMatrix(rotationMatrix);
         }
     }
 }

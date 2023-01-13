@@ -30,7 +30,11 @@ namespace PRO4_lab
             if (position == null) throw new Exception("Camera - lookAt: position not set");
             direction = Vector4.Normalize(point - position);
             right = VectorUtils.CrossProduct(globalUP, direction);
+            right = Vector4.Normalize(right);
             up = VectorUtils.CrossProduct(right, direction);
+            up = Vector4.Normalize(up);
+            if (Form1.ActiveForm == null) return;
+            Form1.ActiveForm.Text = $"Camera dir: ${direction.X}, ${direction.Y}, ${direction.Z}, ${direction.W}";
         }
 
         public Matrix4x4 getViewMatrix()
@@ -64,6 +68,37 @@ namespace PRO4_lab
                         0, 0, 0, 1,
                         0, 0, 1, 0
                     );
+        }
+
+        public void rotateLeft(float speed)
+        {
+            Vector4 rotationPoint = (-right * speed + direction) + position;
+            lookAt(rotationPoint);
+        }
+        public void rotateRight(float speed)
+        {
+            Vector4 rotationPoint = (right * speed + direction) + position;
+            lookAt(rotationPoint);
+        }
+        public void moveForward(float speed)
+        {
+            position += direction * speed;
+            lookAt(position + direction);
+        }
+        public void moveBackward(float speed)
+        {
+            position += -direction * speed;
+            lookAt(position + direction);
+        }
+        public void moveLeft(float speed)
+        {
+            position += -right * speed;
+            lookAt(position + direction);
+        }
+        public void moveRight(float speed)
+        {
+            position += right * speed;
+            lookAt(position + direction);
         }
     }
 }

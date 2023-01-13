@@ -16,10 +16,11 @@ namespace PRO4_lab
     {
         Bitmap bitmap;
         Matrix4x4 P, T, Ry;
-        float angle = 0.01f;
+        float angle = 0.03f;
         Mesh mesh;
         Model model;
         Camera camera;
+        float speed = 0.1f;
         Renderer renderer;
 
         public Form1()
@@ -34,17 +35,19 @@ namespace PRO4_lab
             Graphics g = Graphics.FromImage(pictureBoxMain.BackgroundImage);
             g.Clear(Color.White);
 
-            //string pathOBJ = ".\\assets\\pooltable.obj";
-            //string pathMTL = ".\\assets\\pooltable.mtl";
+            string pathOBJ = ".\\assets\\pooltable.obj";
+            string pathMTL = ".\\assets\\pooltable.mtl";
             //string pathOBJ = ".\\assets\\amogus.obj";
             //string pathMTL = ".\\assets\\amogus.mtl";
             //string pathOBJ = ".\\assets\\nose.obj";
-            string pathOBJ = ".\\assets\\cube.obj";
+            //string pathOBJ = ".\\assets\\cube.obj";
+            //string pathOBJ = ".\\assets\\rat.obj";
 
-            //mesh = Mesh.FromOBJ(pathOBJ, pathMTL);
-            mesh = Mesh.FromOBJ(pathOBJ);
+            mesh = Mesh.FromOBJ(pathOBJ, pathMTL);
+            //mesh = Mesh.FromOBJ(pathOBJ);
             model = new Model(mesh);
-            camera = new Camera(new Vector4(3, 0, 0.1f, 0), new Vector4(0, 0, 0, 0), pictureBoxMain.Size);
+            //camera = new Camera(new Vector4(0, 1.5f, 4f, 0), new Vector4(0, 1, 0, 0), pictureBoxMain.Size);
+            camera = new Camera(new Vector4(0, 7f, 13f, 0), new Vector4(0, 1, 0, 0), pictureBoxMain.Size);
             renderer = new Renderer();
             renderer.addCamera(camera);
             renderer.addObject(model, new Vector4(0, 0, 0, 0));
@@ -58,8 +61,35 @@ namespace PRO4_lab
             camera.viewportSize = pictureBoxMain.Size;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            switch (e.KeyCode)
+            {
+                case (Keys.W):
+                    camera.moveForward(speed);
+                    break;
+                case (Keys.S):
+                    camera.moveBackward(speed);
+                    break;
+                case (Keys.A):
+                    camera.moveLeft(speed);
+                    break;
+                case (Keys.D):
+                    camera.moveRight(speed);
+                    break;
+                case (Keys.Q):
+                    camera.rotateLeft(speed);
+                    break;
+                case (Keys.E):
+                    camera.rotateRight(speed);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {            
             Graphics g = Graphics.FromImage(pictureBoxMain.BackgroundImage);
             g.Clear(Color.White);
             model.RotateByOY(angle);

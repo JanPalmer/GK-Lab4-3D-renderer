@@ -81,19 +81,21 @@ namespace PRO4_lab
                 {
                     //sum++;
 
-                    Vector4 p0p1 = f.GetVertex(1) - f.GetVertex(0);
-                    Vector4 p0p2 = f.GetVertex(2) - f.GetVertex(0);
-                    Vector4 cross = VectorUtils.CrossProduct(p0p1, p0p2);
-                    if (Vector4.Dot(currentCamera.direction, cross) < 0) continue;
-                    //Vector4 nvAvg = new Vector4();
-                    //int count = 0;
-                    //for (int i = 0; i < f.vertices.Count; i++)
-                    //{
-                    //    nvAvg += f.GetNormal(i);
-                    //    count++;
-                    //}
-                    //nvAvg /= count;
-                    //if (Vector4.Dot(currentCamera.direction, nvAvg) > 0) continue;
+                    //Vector4 p0p1 = f.GetVertex(1) - f.GetVertex(0);
+                    //Vector4 p0p2 = f.GetVertex(2) - f.GetVertex(0);
+                    //Vector4 cross = VectorUtils.CrossProduct(p0p1, p0p2);
+                    //cross.W = 0;
+                    //cross = Vector4.Normalize(cross);
+                    //if (Vector4.Dot(currentCamera.position, cross) > 0) continue;
+                    Vector4 nvAvg = new Vector4();
+                    int count = 0;
+                    for (int i = 0; i < f.vertices.Count; i++)
+                    {
+                        nvAvg += f.GetNormal(i);
+                        count++;
+                    }
+                    nvAvg /= count;
+                    if (Vector4.Dot(currentCamera.position, nvAvg) <= 0.6f) continue;
 
                     Point[] triangleToDisplay = new Point[f.vertices.Count + 1];
                     for (int i = 0; i < f.vertices.Count; i++)

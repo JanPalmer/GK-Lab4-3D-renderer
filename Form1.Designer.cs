@@ -90,6 +90,7 @@ namespace PRO4_lab
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMain)).EndInit();
